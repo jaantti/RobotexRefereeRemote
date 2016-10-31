@@ -35,6 +35,7 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.pingButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // comPort
@@ -57,7 +58,7 @@
             // 
             // sendButton
             // 
-            this.sendButton.Location = new System.Drawing.Point(357, 232);
+            this.sendButton.Location = new System.Drawing.Point(357, 254);
             this.sendButton.Name = "sendButton";
             this.sendButton.Size = new System.Drawing.Size(103, 30);
             this.sendButton.TabIndex = 2;
@@ -67,7 +68,7 @@
             // 
             // startButton
             // 
-            this.startButton.Location = new System.Drawing.Point(12, 232);
+            this.startButton.Location = new System.Drawing.Point(12, 254);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(102, 30);
             this.startButton.TabIndex = 3;
@@ -77,7 +78,7 @@
             // 
             // stopButton
             // 
-            this.stopButton.Location = new System.Drawing.Point(120, 232);
+            this.stopButton.Location = new System.Drawing.Point(120, 254);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(102, 30);
             this.stopButton.TabIndex = 4;
@@ -121,7 +122,7 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(228, 232);
+            this.clearButton.Location = new System.Drawing.Point(228, 254);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(102, 30);
             this.clearButton.TabIndex = 4;
@@ -147,11 +148,22 @@
             this.comboBox1.Size = new System.Drawing.Size(75, 21);
             this.comboBox1.TabIndex = 5;
             // 
+            // pingButton
+            // 
+            this.pingButton.Location = new System.Drawing.Point(12, 225);
+            this.pingButton.Name = "pingButton";
+            this.pingButton.Size = new System.Drawing.Size(448, 23);
+            this.pingButton.TabIndex = 7;
+            this.pingButton.Text = "PING";
+            this.pingButton.UseVisualStyleBackColor = true;
+            this.pingButton.Click += new System.EventHandler(this.pingButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(472, 274);
+            this.ClientSize = new System.Drawing.Size(472, 296);
+            this.Controls.Add(this.pingButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -185,6 +197,7 @@
         private System.Windows.Forms.Button clearButton;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button pingButton;
     }
 }
 

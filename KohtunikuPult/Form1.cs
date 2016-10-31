@@ -8,11 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace KohtunikuPult {
+namespace KohtunikuPult
+{
     using System.IO.Ports;
     using System.Windows.Forms.VisualStyles;
 
-    public partial class Form1 : Form {
+    public partial class Form1 : Form
+    {
 
         private SerialPort dongle;
 
@@ -20,15 +22,18 @@ namespace KohtunikuPult {
 
         private int counter;
 
-        private class Item {
+        private class Item
+        {
             public string Name;
             public int Value;
-            
-            public Item(string name, int value) {
+
+            public Item(string name, int value)
+            {
                 this.Name = name;
                 this.Value = value;
             }
-            public override string ToString() {
+            public override string ToString()
+            {
                 // Generates the text shown in the combo box
                 return this.Name;
             }
@@ -45,8 +50,6 @@ namespace KohtunikuPult {
             for (int i = 0; i < serialList.Length; i++)
             {
                 comPort.Items.Add(new Item(serialList[i], i));
-                //comPort.Items.Add(new Item(comports[i].Description, i));
-                //comPair.Add(new KeyValuePair<string, string>(comports[i].Description, serialList[i]));
             }
 
             string[] fields = { "A", "B", "X" };
@@ -62,8 +65,6 @@ namespace KohtunikuPult {
             {
                 teamComboBox.Items.Add(new Item(robots[i], i));
             }
-
-            //for (int i = 0; i )
         }
 
         private void comPort_SelectedIndexChanged(object sender, EventArgs e)
@@ -76,13 +77,9 @@ namespace KohtunikuPult {
             {
                 MessageBox.Show(ex.Message);
             }
-            Item port = (Item) comPort.SelectedItem;
-            //KeyValuePair<string, string> p = comPair.Find(m => m.Key.Equals(port.Name));
-            //MessageBox.Show(p.Key + ", " + p.Value);
- 
-            //dongle = new SerialPort(p.Value);
+            Item port = (Item)comPort.SelectedItem;
             dongle = new SerialPort(port.Name);
-            
+
             try
             {
                 dongle.Open();
@@ -92,8 +89,6 @@ namespace KohtunikuPult {
             {
                 MessageBox.Show(ex.Message);
             }
-
-            //dongle.Close();
         }
 
         private void sendButton_Click(object sender, EventArgs e)
@@ -102,20 +97,21 @@ namespace KohtunikuPult {
             dongle.Write(data);
         }
 
-        void DataReceived(object sender, SerialDataReceivedEventArgs e) {
+        void DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
             int dataLength = dongle.BytesToRead;
             byte[] data = new byte[dataLength];
             int nbrDataRead = dongle.Read(data, 0, dataLength);
             if (nbrDataRead == 0)
                 return;
             AppendTextBox(System.Text.Encoding.Default.GetString(data));
-            //MessageBox.Show(System.Text.Encoding.Default.GetString(data));
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             Item field = (Item)this.fieldComboBox.SelectedItem;
             Item robot = (Item)this.teamComboBox.SelectedItem;
+
             try
             {
                 string f = field.Name;
@@ -130,8 +126,6 @@ namespace KohtunikuPult {
             {
                 MessageBox.Show("You must select a valid COM port, field and robot");
             }
-            
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -153,14 +147,16 @@ namespace KohtunikuPult {
             {
                 MessageBox.Show("You must select a valid COM port, field and robot");
             }
-            
         }
 
-        public void AppendTextBox(string value) {
-            if (InvokeRequired) {
+        public void AppendTextBox(string value)
+        {
+            if (InvokeRequired)
+            {
                 this.Invoke(new Action<string>(AppendTextBox), new object[] { value });
                 return;
             }
+
             dataTextBox.AppendText(counter + ": " + value);
             dataTextBox.Text += "\n";
             dataTextBox.SelectionStart = dataTextBox.TextLength;
@@ -172,6 +168,27 @@ namespace KohtunikuPult {
         {
             dataTextBox.Clear();
             counter = 1;
+        }
+
+        private void pingButton_Click(object sender, EventArgs e)
+        {
+            Item field = (Item)this.fieldComboBox.SelectedItem;
+            Item robot = (Item)this.teamComboBox.SelectedItem;
+
+            try
+            {
+                string f = field.Name;
+                string r = robot.Name == "All" ? "X" : robot.Name;
+                string data = "a" + f + r + "PING-----";
+
+                //ping button click
+                //string data = "aAXPING-----";
+                dongle.Write(data);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("You must select a valid COM port, field and robot");
+            }
         }
     }
 }
