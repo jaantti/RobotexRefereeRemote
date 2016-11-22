@@ -36,6 +36,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.pingButton = new System.Windows.Forms.Button();
+            this.robotA = new System.Windows.Forms.Label();
+            this.robotB = new System.Windows.Forms.Label();
+            this.robotC = new System.Windows.Forms.Label();
+            this.robotD = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // comPort
@@ -158,11 +162,52 @@
             this.pingButton.UseVisualStyleBackColor = true;
             this.pingButton.Click += new System.EventHandler(this.pingButton_Click);
             // 
+            // robotA
+            // 
+            this.robotA.AutoSize = true;
+            this.robotA.BackColor = System.Drawing.SystemColors.Control;
+            this.robotA.Location = new System.Drawing.Point(12, 209);
+            this.robotA.Name = "robotA";
+            this.robotA.Size = new System.Drawing.Size(14, 13);
+            this.robotA.TabIndex = 8;
+            this.robotA.Text = "A";
+            // 
+            // robotB
+            // 
+            this.robotB.AutoSize = true;
+            this.robotB.Location = new System.Drawing.Point(32, 209);
+            this.robotB.Name = "robotB";
+            this.robotB.Size = new System.Drawing.Size(14, 13);
+            this.robotB.TabIndex = 9;
+            this.robotB.Text = "B";
+            // 
+            // robotC
+            // 
+            this.robotC.AutoSize = true;
+            this.robotC.Location = new System.Drawing.Point(52, 209);
+            this.robotC.Name = "robotC";
+            this.robotC.Size = new System.Drawing.Size(14, 13);
+            this.robotC.TabIndex = 9;
+            this.robotC.Text = "C";
+            // 
+            // robotD
+            // 
+            this.robotD.AutoSize = true;
+            this.robotD.Location = new System.Drawing.Point(72, 209);
+            this.robotD.Name = "robotD";
+            this.robotD.Size = new System.Drawing.Size(15, 13);
+            this.robotD.TabIndex = 9;
+            this.robotD.Text = "D";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(472, 296);
+            this.Controls.Add(this.robotD);
+            this.Controls.Add(this.robotC);
+            this.Controls.Add(this.robotB);
+            this.Controls.Add(this.robotA);
             this.Controls.Add(this.pingButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -198,6 +243,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button pingButton;
+        private System.Windows.Forms.Label robotA;
+        private System.Windows.Forms.Label robotB;
+        private System.Windows.Forms.Label robotC;
+        private System.Windows.Forms.Label robotD;
     }
 }
 

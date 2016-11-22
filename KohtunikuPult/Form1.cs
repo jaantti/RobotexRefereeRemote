@@ -65,6 +65,8 @@ namespace KohtunikuPult
             {
                 teamComboBox.Items.Add(new Item(robots[i], i));
             }
+
+            setAckRed();
         }
 
         private void comPort_SelectedIndexChanged(object sender, EventArgs e)
@@ -95,6 +97,7 @@ namespace KohtunikuPult
         {
             string data = dataTextBox.Text;
             dongle.Write(data);
+            setAckRed();
         }
 
         void DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -104,7 +107,28 @@ namespace KohtunikuPult
             int nbrDataRead = dongle.Read(data, 0, dataLength);
             if (nbrDataRead == 0)
                 return;
-            AppendTextBox(System.Text.Encoding.Default.GetString(data));
+            string dataReceived = System.Text.Encoding.Default.GetString(data);
+            AppendTextBox(dataReceived);
+
+            Item field = (Item)this.fieldComboBox.SelectedItem;
+            if (dataReceived[0] == 'a' && dataReceived[1] == field.Name[0] && dataReceived.Substring(3,3).CompareTo("ACK") == 0)
+            {
+                switch (dataReceived[2])
+                {
+                    case 'A':
+                        robotA.BackColor = Color.DarkSeaGreen;
+                        break;
+                    case 'B':
+                        robotB.BackColor = Color.DarkSeaGreen;
+                        break;
+                    case 'C':
+                        robotC.BackColor = Color.DarkSeaGreen;
+                        break;
+                    case 'D':
+                        robotD.BackColor = Color.DarkSeaGreen;
+                        break;
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -121,6 +145,7 @@ namespace KohtunikuPult
                 //start button click
                 //string data = "aAXSTART----";
                 dongle.Write(data);
+                setAckRed();
             }
             catch (Exception)
             {
@@ -142,6 +167,7 @@ namespace KohtunikuPult
                 //stop button click
                 //string data = "aAXSTOP-----";
                 dongle.Write(data);
+                setAckRed();
             }
             catch (Exception)
             {
@@ -168,27 +194,44 @@ namespace KohtunikuPult
         {
             dataTextBox.Clear();
             counter = 1;
+            setAckRed();
         }
 
         private void pingButton_Click(object sender, EventArgs e)
         {
             Item field = (Item)this.fieldComboBox.SelectedItem;
-            Item robot = (Item)this.teamComboBox.SelectedItem;
+            //Item robot = (Item)this.teamComboBox.SelectedItem;
 
             try
             {
-                string f = field.Name;
-                string r = robot.Name == "All" ? "X" : robot.Name;
-                string data = "a" + f + r + "PING-----";
+                string[] robots =
+                {
+                    "A",
+                    "B",
+                    "C",
+                    "D"
+                };
 
-                //ping button click
-                //string data = "aAXPING-----";
-                dongle.Write(data);
+                foreach (var robot in robots)
+                {
+                    string f = field.Name;
+                    string data = "a" + f + robot + "PING-----";
+                    dongle.Write(data);
+                    setAckRed();
+                }
             }
             catch (Exception)
             {
                 MessageBox.Show("You must select a valid COM port, field and robot");
             }
+        }
+
+        private void setAckRed()
+        {
+            robotA.BackColor = Color.Salmon;
+            robotB.BackColor = Color.Salmon;
+            robotC.BackColor = Color.Salmon;
+            robotD.BackColor = Color.Salmon;
         }
     }
 }
