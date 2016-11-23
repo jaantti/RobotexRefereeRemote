@@ -110,8 +110,9 @@ namespace KohtunikuPult
             string dataReceived = System.Text.Encoding.Default.GetString(data);
             AppendTextBox(dataReceived);
 
-            Item field = (Item)this.fieldComboBox.SelectedItem;
-            if (dataReceived[0] == 'a' && dataReceived[1] == field.Name[0] && dataReceived.Substring(3,3).CompareTo("ACK") == 0)
+            //Item field = (Item)this.fieldComboBox.SelectedItem;
+            if (dataReceived.Length < 6) return;
+            if (dataReceived[0] == 'a' && dataReceived[1] == 'A' && dataReceived.Substring(3,3).CompareTo("ACK") == 0)
             {
                 switch (dataReceived[2])
                 {
