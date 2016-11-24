@@ -23,6 +23,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.comPort = new System.Windows.Forms.ComboBox();
             this.dataTextBox = new System.Windows.Forms.RichTextBox();
             this.sendButton = new System.Windows.Forms.Button();
@@ -40,6 +41,9 @@
             this.robotB = new System.Windows.Forms.Label();
             this.robotC = new System.Windows.Forms.Label();
             this.robotD = new System.Windows.Forms.Label();
+            this.timerTime = new System.Windows.Forms.Label();
+            this.timerResetButton = new System.Windows.Forms.Button();
+            this.timeUpdateTick = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // comPort
@@ -199,11 +203,37 @@
             this.robotD.TabIndex = 9;
             this.robotD.Text = "D";
             // 
+            // timerTime
+            // 
+            this.timerTime.AutoSize = true;
+            this.timerTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(186)));
+            this.timerTime.Location = new System.Drawing.Point(402, 13);
+            this.timerTime.Name = "timerTime";
+            this.timerTime.Size = new System.Drawing.Size(40, 20);
+            this.timerTime.TabIndex = 10;
+            this.timerTime.Text = "00,0";
+            // 
+            // timerResetButton
+            // 
+            this.timerResetButton.Location = new System.Drawing.Point(321, 12);
+            this.timerResetButton.Name = "timerResetButton";
+            this.timerResetButton.Size = new System.Drawing.Size(75, 23);
+            this.timerResetButton.TabIndex = 11;
+            this.timerResetButton.Text = "Reset";
+            this.timerResetButton.UseVisualStyleBackColor = true;
+            this.timerResetButton.Click += new System.EventHandler(this.timerResetButton_Click);
+            // 
+            // timeUpdateTick
+            // 
+            this.timeUpdateTick.Tick += new System.EventHandler(this.timeUpdate_Tick);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(472, 296);
+            this.Controls.Add(this.timerResetButton);
+            this.Controls.Add(this.timerTime);
             this.Controls.Add(this.robotD);
             this.Controls.Add(this.robotC);
             this.Controls.Add(this.robotB);
@@ -247,6 +277,9 @@
         private System.Windows.Forms.Label robotB;
         private System.Windows.Forms.Label robotC;
         private System.Windows.Forms.Label robotD;
+        private System.Windows.Forms.Label timerTime;
+        private System.Windows.Forms.Button timerResetButton;
+        private System.Windows.Forms.Timer timeUpdateTick;
     }
 }
 

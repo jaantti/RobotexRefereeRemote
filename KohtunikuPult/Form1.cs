@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,12 +17,15 @@ namespace KohtunikuPult
 
     public partial class Form1 : Form
     {
+        private Stopwatch matchTimer;
 
         private SerialPort dongle;
 
         private List<KeyValuePair<string, string>> comPair;
 
         private int counter;
+
+        private readonly float matchTime = 90.0f;
 
         private class Item
         {
@@ -47,6 +52,9 @@ namespace KohtunikuPult
             var comports = COMPortInfo.GetCOMPortsInfo();
             counter = 1;
 
+            matchTimer = new Stopwatch();
+            matchTimer.Reset();
+
             for (int i = 0; i < serialList.Length; i++)
             {
                 comPort.Items.Add(new Item(serialList[i], i));
@@ -67,6 +75,8 @@ namespace KohtunikuPult
             }
 
             setAckRed();
+
+            timerResetButton_Click(new object(), new EventArgs());
         }
 
         private void comPort_SelectedIndexChanged(object sender, EventArgs e)
@@ -147,6 +157,8 @@ namespace KohtunikuPult
                 //string data = "aAXSTART----";
                 dongle.Write(data);
                 setAckRed();
+                matchTimer.Start();
+                timeUpdateTick.Start();
             }
             catch (Exception)
             {
@@ -169,6 +181,8 @@ namespace KohtunikuPult
                 //string data = "aAXSTOP-----";
                 dongle.Write(data);
                 setAckRed();
+                matchTimer.Stop();
+                timeUpdateTick.Stop();
             }
             catch (Exception)
             {
@@ -233,6 +247,31 @@ namespace KohtunikuPult
             robotB.BackColor = Color.Salmon;
             robotC.BackColor = Color.Salmon;
             robotD.BackColor = Color.Salmon;
+        }
+
+        private void timerResetButton_Click(object sender, EventArgs e)
+        {
+            matchTimer.Stop();
+            timeUpdateTick.Stop();
+            matchTimer.Reset();
+            timerTime.Text = getTimerText(matchTime);
+        }
+
+        private string getTimerText(float time)
+        {
+            return $"{time:F1}";
+        }
+
+        private void timeUpdate_Tick(object sender, EventArgs e)
+        {
+            float timeLeft = matchTime - matchTimer.ElapsedMilliseconds / 1000.0f;
+            if (timeLeft < 0.0f)
+            {
+                button2_Click(new object(), new EventArgs());
+                System.Media.SystemSounds.Exclamation.Play();
+                //SEND STOP
+            }
+            timerTime.Text = getTimerText(timeLeft);
         }
     }
 }
