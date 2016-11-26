@@ -13,6 +13,7 @@ using System.Windows.Forms;
 namespace KohtunikuPult
 {
     using System.IO.Ports;
+    using System.Threading;
     using System.Windows.Forms.VisualStyles;
 
     public partial class Form1 : Form
@@ -106,7 +107,8 @@ namespace KohtunikuPult
         private void sendButton_Click(object sender, EventArgs e)
         {
             string data = dataTextBox.Text;
-            dongle.Write(data);
+            SendData(data);
+            //dongle.Write(data);
             setAckRed();
         }
 
@@ -155,7 +157,8 @@ namespace KohtunikuPult
 
                 //start button click
                 //string data = "aAXSTART----";
-                dongle.Write(data);
+                //dongle.Write(data);
+                SendData(data);
                 setAckRed();
                 matchTimer.Start();
                 timeUpdateTick.Start();
@@ -179,7 +182,8 @@ namespace KohtunikuPult
 
                 //stop button click
                 //string data = "aAXSTOP-----";
-                dongle.Write(data);
+                //dongle.Write(data);
+                SendData(data);
                 setAckRed();
                 matchTimer.Stop();
                 timeUpdateTick.Stop();
@@ -231,7 +235,8 @@ namespace KohtunikuPult
                 {
                     string f = field.Name;
                     string data = "a" + f + robot + "PING-----";
-                    dongle.Write(data);
+                    SendData(data);
+                    //dongle.Write(data);
                     setAckRed();
                 }
             }
@@ -272,6 +277,13 @@ namespace KohtunikuPult
                 //SEND STOP
             }
             timerTime.Text = getTimerText(timeLeft);
+        }
+
+        private void SendData(string data) {
+            for (int i = 0; i < 10; i++) {
+                dongle.Write(data);
+                Thread.Sleep(10);
+            }
         }
     }
 }
